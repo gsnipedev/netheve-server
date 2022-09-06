@@ -1,9 +1,6 @@
 package com.gsnipedev.netheve.server.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import org.hibernate.annotations.OnDelete
-import org.hibernate.annotations.OnDeleteAction
 import javax.persistence.*
 
 @Entity
@@ -11,6 +8,7 @@ import javax.persistence.*
 data class CommentsEntity(
 
     @Id
+    @GeneratedValue
     val id: Int,
 
     @JsonIgnore
@@ -20,4 +18,4 @@ data class CommentsEntity(
     @Column
     val text: String,
 
-)
+    )

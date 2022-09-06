@@ -1,7 +1,6 @@
 package com.gsnipedev.netheve.server.service
 
 import com.gsnipedev.netheve.server.entity.CommentsEntity
-import com.gsnipedev.netheve.server.error.UnauthorizedException
 import org.springframework.stereotype.Service
 import com.gsnipedev.netheve.server.interfaces.CommentService
 import com.gsnipedev.netheve.server.model.WebResponse
@@ -52,7 +51,7 @@ class CommentService(
         )
 
         val newCommentEntity = CommentsEntity(
-            id = data.id,
+            id = 0,
             post = postsRepository.getReferenceById(data.id),
             text = data.textComment
         )
