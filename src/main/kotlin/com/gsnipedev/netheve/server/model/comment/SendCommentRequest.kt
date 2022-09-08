@@ -2,7 +2,8 @@ package com.gsnipedev.netheve.server.model.comment
 
 data class SendCommentRequest(
 
-    val id : Int = 0,
+    val postId : Int,
+    val issuerId: Int,
     val textComment: String
 
 )

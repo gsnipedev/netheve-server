@@ -4,9 +4,9 @@ import com.gsnipedev.netheve.server.entity.CommentsEntity
 import com.gsnipedev.netheve.server.model.WebResponse
 import com.gsnipedev.netheve.server.model.comment.EditCommentRequest
 import com.gsnipedev.netheve.server.model.comment.SendCommentRequest
-import java.util.Optional
+import java.util.*
 
-interface CommentService {
+interface CommentServiceInterface : CommentReplyServiceInterface {
 
     fun getComment(data: Int): WebResponse<CommentsEntity>
 

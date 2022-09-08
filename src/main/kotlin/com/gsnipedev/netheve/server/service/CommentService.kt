@@ -1,22 +1,29 @@
 package com.gsnipedev.netheve.server.service
 
+import com.gsnipedev.netheve.server.entity.CommentRepliesEntity
 import com.gsnipedev.netheve.server.entity.CommentsEntity
-import org.springframework.stereotype.Service
-import com.gsnipedev.netheve.server.interfaces.CommentService
+import com.gsnipedev.netheve.server.interfaces.CommentServiceInterface
 import com.gsnipedev.netheve.server.model.WebResponse
 import com.gsnipedev.netheve.server.model.comment.EditCommentRequest
 import com.gsnipedev.netheve.server.model.comment.SendCommentRequest
+import com.gsnipedev.netheve.server.model.comment.reply.EditReplyCommentRequest
+import com.gsnipedev.netheve.server.model.comment.reply.ReplyCommentRequest
+import com.gsnipedev.netheve.server.repository.AccountRepository
+import com.gsnipedev.netheve.server.repository.CommentReplyRepository
 import com.gsnipedev.netheve.server.repository.CommentRepository
 import com.gsnipedev.netheve.server.repository.PostsRepository
+import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.Optional
+import java.util.*
 import javax.persistence.EntityNotFoundException
 
 @Service
 class CommentService(
     val commentRepository: CommentRepository,
-    val postsRepository: PostsRepository
-    ) : CommentService  {
+    val postsRepository: PostsRepository,
+    val accountRepository: AccountRepository,
+    val commentReplyRepository: CommentReplyRepository
+    ) : CommentServiceInterface  {
 
 
     override fun getComment(data: Int): WebResponse<CommentsEntity> {
@@ -52,8 +59,12 @@ class CommentService(
 
         val newCommentEntity = CommentsEntity(
             id = 0,
-            post = postsRepository.getReferenceById(data.id),
-            text = data.textComment
+            post = postsRepository.getReferenceById(data.postId),
+            issuer = accountRepository.getReferenceById(data.issuerId),
+            text = data.textComment,
+            replies = emptyList(),
+            updatedAt = null,
+            createdAt = Date()
         )
 
         commentRepository.save(newCommentEntity)
@@ -100,6 +111,59 @@ class CommentService(
         )
 
         commentRepository.deleteById(data)
+        return response
+    }
+
+    override fun getReply(data: Int): WebResponse<CommentRepliesEntity> {
+        val response = WebResponse(
+            code = 200,
+            status = "OK",
+            data = commentReplyRepository.getReferenceById(data)
+        )
+
+        return response
+    }
+
+    override fun reply(data: ReplyCommentRequest): WebResponse<String> {
+
+        val response = WebResponse(
+            code = 200,
+            status = "OK",
+            data = "Replied"
+        )
+
+        val newCommentReply = CommentRepliesEntity(
+            id = 0,
+            issuer = accountRepository.getReferenceById(data.issuer),
+            text = data.textReply,
+            comment = commentRepository.getReferenceById(data.commentId),
+            updatedAt = null,
+            createdAt = Date(),
+        )
+        commentReplyRepository.save(newCommentReply)
+        return response
+    }
+
+    @Transactional
+    override fun deleteReply(data: Int): WebResponse<String> {
+        val response = WebResponse(
+            code = 200,
+            status = "OK",
+            data = "Deleted"
+        )
+
+        commentReplyRepository.deleteById(data)
+        return response
+    }
+
+    @Transactional
+    override fun editReply(data: EditReplyCommentRequest): WebResponse<String> {
+        val response = WebResponse(
+            code = 200,
+            status = "OK",
+            data = "Edited"
+        )
+        commentReplyRepository.edit(data.replyId, data.newTextReply)
         return response
     }
 }

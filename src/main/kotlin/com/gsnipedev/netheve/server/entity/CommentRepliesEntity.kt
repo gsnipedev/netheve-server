@@ -5,8 +5,8 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "Comments")
-data class CommentsEntity(
+@Table(name = "comment_reply")
+data class CommentRepliesEntity(
 
     @Id
     @GeneratedValue
@@ -15,15 +15,12 @@ data class CommentsEntity(
     @ManyToOne
     val issuer: AccountEntity,
 
-    @JsonIgnore
     @ManyToOne
-    val post: PostsEntity,
+    @JsonIgnore
+    val comment: CommentsEntity,
 
-    @Column
+    @Column(name = "textReply")
     val text: String,
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "comment", cascade = [CascadeType.REMOVE])
-    val replies: List<CommentRepliesEntity>?,
 
     @Column(name = "updatedAt")
     val updatedAt: Date?,
@@ -31,4 +28,4 @@ data class CommentsEntity(
     @Column(name = "createdAt")
     val createdAt: Date
 
-    )
+)
