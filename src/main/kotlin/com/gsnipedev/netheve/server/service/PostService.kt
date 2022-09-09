@@ -4,7 +4,6 @@ import com.gsnipedev.netheve.server.entity.PostsEntity
 import com.gsnipedev.netheve.server.interfaces.PostsService
 import com.gsnipedev.netheve.server.model.WebResponse
 import com.gsnipedev.netheve.server.model.posts.CreatePostRequest
-import com.gsnipedev.netheve.server.model.posts.FypGetRequest
 import com.gsnipedev.netheve.server.model.posts.SearchPostRequest
 import com.gsnipedev.netheve.server.model.posts.UpdatePostRequest
 import com.gsnipedev.netheve.server.repository.AccountRepository
@@ -65,7 +64,8 @@ class PostService(
             textContent = data.textContent,
             createdAt = Date(),
             updatedAt = null,
-            comments = null
+            comments = null,
+            likes = emptyList()
         )
         postsRepository.save(newPostEntity)
 

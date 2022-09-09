@@ -28,4 +28,7 @@ data class PostsEntity(
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "post", cascade = [CascadeType.REMOVE])
     val comments: List<CommentsEntity>?,
 
+    @OneToMany(mappedBy = "post", cascade = [CascadeType.REMOVE])
+    val likes: List<LikeEntity>
+
 )
