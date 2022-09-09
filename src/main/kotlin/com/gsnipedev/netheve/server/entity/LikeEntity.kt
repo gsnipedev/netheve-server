@@ -1,5 +1,6 @@
 package com.gsnipedev.netheve.server.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.util.*
 import javax.persistence.*
 
@@ -15,6 +16,7 @@ data class LikeEntity(
     val issuer: AccountEntity,
 
     @ManyToOne
+    @JsonIgnore
     val post: PostsEntity,
 
     val updatedAt: Date?,
