@@ -18,8 +18,8 @@ class PostService(
     val accountRepository: AccountRepository,
 ) : PostsService {
 
-    override fun getPost(data: Int): WebResponse<Optional<PostsEntity>> {
-        val result = postsRepository.findById(data)
+    override fun getPost(data: Int): WebResponse<PostsEntity> {
+        val result = postsRepository.getReferenceById(data)
         val response = WebResponse(
             code = 200,
             status = "OK",
@@ -60,7 +60,7 @@ class PostService(
 
         val newPostEntity = PostsEntity(
             Id = 0,
-            account = accountRepository.getReferenceById(data.id),
+            account = accountRepository.getReferenceById(data.issuerId),
             textContent = data.textContent,
             createdAt = Date(),
             updatedAt = null,

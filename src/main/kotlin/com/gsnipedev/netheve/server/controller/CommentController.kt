@@ -2,20 +2,11 @@ package com.gsnipedev.netheve.server.controller
 
 import com.gsnipedev.netheve.server.entity.CommentsEntity
 import com.gsnipedev.netheve.server.model.WebResponse
-import com.gsnipedev.netheve.server.model.comment.DeleteCommentRequest
 import com.gsnipedev.netheve.server.model.comment.EditCommentRequest
 import com.gsnipedev.netheve.server.model.comment.SendCommentRequest
 import com.gsnipedev.netheve.server.service.CommentService
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
@@ -52,10 +43,10 @@ class CommentController(val commentService: CommentService) {
         return commentService.editComment(body)
     }
 
-    @DeleteMapping(consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun delete(@RequestBody() body: DeleteCommentRequest) : WebResponse<String>
+    @DeleteMapping()
+    fun delete(@RequestParam("id") param: Int) : WebResponse<String>
     {
-        return commentService.deleteComment(body.id)
+        return commentService.deleteComment(param)
     }
 
 }

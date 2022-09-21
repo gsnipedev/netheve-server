@@ -25,7 +25,7 @@ data class PostsEntity(
     @Column(name = "updatedAt")
     val updatedAt: Date?,
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "post", cascade = [CascadeType.REMOVE])
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade = [CascadeType.REMOVE])
     val comments: List<CommentsEntity>?,
 
     @OneToMany(mappedBy = "post", cascade = [CascadeType.REMOVE])

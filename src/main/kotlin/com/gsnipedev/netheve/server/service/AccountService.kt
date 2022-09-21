@@ -18,7 +18,10 @@ import javax.persistence.EntityNotFoundException
 
 
 @Service
-class AccountService (val accountRepository: AccountRepository) :
+class AccountService (
+    val accountRepository: AccountRepository,
+    val jwtAuthService: JwtAuthService
+    ) :
     AccountService {
     override fun getOne(data: Int): WebResponse<AccountEntity> {
 
@@ -38,16 +41,22 @@ class AccountService (val accountRepository: AccountRepository) :
     }
 
     override fun login(username: String, password: String): WebResponse<LoginResponse> {
-
-        val response = WebResponse( code = 200, status = "OK",data = LoginResponse("Logged In"))
-        val result : Int
+        val issuer : AccountEntity
+        val response = WebResponse(
+            code = 200,
+            status = "OK",
+            data = LoginResponse(error_message = "null", access_token = "null", user_id = 0)
+        )
         try{
-            result = accountRepository.findByUsernameAndPassword(username, password)
-            if(result < 1){ response.data = LoginResponse("Wrong username or password") }
-        }catch (err: Exception){
-            response.data = LoginResponse("Wrong username or Password")
+            issuer = accountRepository.getByUsernameAndPassword(username, password)
+        }catch (e: Exception)
+        {
+            response.data = LoginResponse("Wrong username or Password", access_token = "", user_id = 0)
+            return response
         }
 
+        val token = jwtAuthService.generateToken(username, issuer.id)
+        response.data = LoginResponse(error_message = "Logged In", access_token = token, user_id = issuer.id)
         return response
     }
 

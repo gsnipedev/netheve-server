@@ -1,6 +1,5 @@
 package com.gsnipedev.netheve.server.config
 
-import com.auth0.jwt.algorithms.Algorithm
 import com.gsnipedev.netheve.server.auth.ApiKeyInterceptor
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
@@ -11,7 +10,10 @@ class InterceptorConfiguration(val apiKeyInterceptor: ApiKeyInterceptor) : WebMv
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         super.addInterceptors(registry)
-        registry.addWebRequestInterceptor(apiKeyInterceptor).addPathPatterns("/api/account/change-password")
+        registry.addWebRequestInterceptor(apiKeyInterceptor)
+            .addPathPatterns("/api/account/change-password")
+//            .addPathPatterns("/api/comment")
+//            .addPathPatterns("/api/like/**")
     }
 
 }

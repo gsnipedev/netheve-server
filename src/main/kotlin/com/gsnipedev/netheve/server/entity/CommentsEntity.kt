@@ -22,7 +22,7 @@ data class CommentsEntity(
     @Column
     val text: String,
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "comment", cascade = [CascadeType.REMOVE])
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "comment", cascade = [CascadeType.REMOVE])
     val replies: List<CommentRepliesEntity>?,
 
     @Column(name = "updatedAt")

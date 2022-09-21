@@ -8,7 +8,6 @@ import com.gsnipedev.netheve.server.model.posts.UpdatePostRequest
 import com.gsnipedev.netheve.server.service.PostService
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
-import java.util.*
 
 @RestController
 @RequestMapping("api/post")
@@ -22,7 +21,7 @@ class PostsController(val postService: PostService) {
     }
 
     @GetMapping("/{id}",produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun get(@PathVariable(name = "id") pathVar: Int) : WebResponse<Optional<PostsEntity>>
+    fun get(@PathVariable(name = "id") pathVar: Int) : WebResponse<PostsEntity>
     {
         return postService.getPost(pathVar)
     }

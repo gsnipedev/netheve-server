@@ -10,6 +10,9 @@ interface AccountRepository : JpaRepository<AccountEntity, Int>{
     @Query(value = "SELECT * FROM account WHERE username= ?1 AND password= ?2", nativeQuery = true)
     fun findByUsernameAndPassword(username: String, password: String) : Int
 
+    @Query(value = "SELECT * FROM account WHERE username= ?1 AND password= ?2 LIMIT 1", nativeQuery = true)
+    fun getByUsernameAndPassword(username: String, password: String) : AccountEntity
+
     @Query(value = "SELECT * FROM account WHERE username=?1 ", nativeQuery = true)
     fun findByUsername(username: String) : Int
 
