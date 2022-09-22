@@ -2,6 +2,7 @@ package com.gsnipedev.netheve.server.controller
 
 import com.gsnipedev.netheve.server.entity.LikeEntity
 import com.gsnipedev.netheve.server.model.WebResponse
+import com.gsnipedev.netheve.server.model.like.CheckLikeResponse
 import com.gsnipedev.netheve.server.model.like.LikeModel
 import com.gsnipedev.netheve.server.service.LikeService
 import org.springframework.web.bind.annotation.*
@@ -21,6 +22,13 @@ class LikeController(val likeService: LikeService) {
     {
         return likeService.getTotalLikesById(param)
     }
+
+    @GetMapping("/check")
+    fun checkIfLiked(@RequestParam("postId") postId:Int, @RequestParam("userId") userId: Int): WebResponse<CheckLikeResponse>
+    {
+        return likeService.checkIfLiked(postId, userId)
+    }
+
 
     @PostMapping
     fun like(@RequestBody body: LikeModel): WebResponse<String>

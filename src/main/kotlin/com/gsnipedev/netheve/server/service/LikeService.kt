@@ -3,6 +3,7 @@ package com.gsnipedev.netheve.server.service
 import com.gsnipedev.netheve.server.entity.LikeEntity
 import com.gsnipedev.netheve.server.interfaces.LikeServiceInterface
 import com.gsnipedev.netheve.server.model.WebResponse
+import com.gsnipedev.netheve.server.model.like.CheckLikeResponse
 import com.gsnipedev.netheve.server.model.like.LikeModel
 import com.gsnipedev.netheve.server.repository.AccountRepository
 import com.gsnipedev.netheve.server.repository.LikeRepository
@@ -32,12 +33,22 @@ class LikeService(
             updatedAt = null,
             createdAt = Date()
         )
-        if(likeRepository.checkIfExist(newLikeRecord.post.Id, newLikeRecord.issuer.id) != 0)
-        {
+//        if(likeRepository.checkIfExist(newLikeRecord.post.Id, newLikeRecord.issuer.id) != 0)
+//        {
+//            response.code = 403
+//            response.status = "Error"
+//            response.data = "Error"
+//            return response
+//        }
+        try {
+            likeRepository.checkIfExist(newLikeRecord.post.Id, newLikeRecord.issuer.id)
             response.code = 403
             response.status = "Error"
             response.data = "Error"
             return response
+        }catch (e: Exception)
+        {
+            //pass
         }
         likeRepository.save(newLikeRecord)
         return response
@@ -84,6 +95,30 @@ class LikeService(
             data = likeRepository.getTotalByPostId(postId)
         )
 
+        return response
+    }
+
+    override fun checkIfLiked(postId: Int, userId: Int): WebResponse<CheckLikeResponse> {
+
+        val data = CheckLikeResponse(
+            id = 0,
+            isLiked = false
+        )
+        try {
+            val queryResult = likeRepository.checkIfExist(postId, userId)
+            data.id = queryResult.id
+            data.isLiked = true
+        }catch (e: Exception)
+        {
+            data.isLiked = false
+        }
+
+
+        val response = WebResponse(
+            code = 200,
+            status = "OK",
+            data = data
+        )
         return response
     }
 
