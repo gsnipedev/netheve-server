@@ -1,12 +1,12 @@
 package com.gsnipedev.netheve.server.service
 
 import com.gsnipedev.netheve.server.entity.FollowEntity
-import org.springframework.stereotype.Service
 import com.gsnipedev.netheve.server.interfaces.FollowService
-import com.gsnipedev.netheve.server.model.follow.FollowRequest
 import com.gsnipedev.netheve.server.model.WebResponse
+import com.gsnipedev.netheve.server.model.follow.FollowRequest
 import com.gsnipedev.netheve.server.repository.AccountRepository
 import com.gsnipedev.netheve.server.repository.FollowRepository
+import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import javax.persistence.EntityNotFoundException
@@ -31,8 +31,8 @@ class FollowService(
 
         val newFollowEntity = FollowEntity(
             id = 0,
-            following = accountRepository.getReferenceById(data.whoFollowId),
-            follower = accountRepository.getReferenceById(data.followToId)
+            left = accountRepository.getReferenceById(data.whoFollowId),
+            right = accountRepository.getReferenceById(data.followToId)
         )
 
         followRepository.save(newFollowEntity)

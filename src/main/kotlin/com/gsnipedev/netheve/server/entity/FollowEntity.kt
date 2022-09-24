@@ -1,14 +1,7 @@
 package com.gsnipedev.netheve.server.entity
 
-import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import javax.persistence.CascadeType
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "follow")
@@ -20,10 +13,10 @@ data class FollowEntity(
 
     @ManyToOne
     @JsonIgnoreProperties("userData")
-    val following: AccountEntity,
+    val left: AccountEntity,
 
     @ManyToOne
     @JsonIgnoreProperties("userData")
-    val follower: AccountEntity
+    val right: AccountEntity
 
 )
