@@ -115,10 +115,18 @@ class AccountService (
     override fun updatePassword(data: UpdatePasswordRequest): WebResponse<UpdatePasswordResponse> {
         val response = WebResponse(code = 200, status = "OK", data = UpdatePasswordResponse(""))
         var result: Int = 0
+        val minimumPasswordLength = 8
+        val maximumPasswordLength = 20
 
         if(data.newPassword != data.newPasswordConfirmation)
         {
             response.data = UpdatePasswordResponse("New password does not match")
+            return response
+        }
+
+        if(data.newPassword.length < minimumPasswordLength || data.newPassword.length > maximumPasswordLength)
+        {
+            response.data = UpdatePasswordResponse("Please use 8-20 character")
             return response
         }
 
