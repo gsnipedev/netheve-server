@@ -10,8 +10,8 @@ class InterceptorConfiguration(val apiKeyInterceptor: ApiKeyInterceptor) : WebMv
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         super.addInterceptors(registry)
-        registry.addWebRequestInterceptor(apiKeyInterceptor)
-            .addPathPatterns("/api/account/change-password")
+        registry.addInterceptor(apiKeyInterceptor)
+            .addPathPatterns("/nothing")
 //            .addPathPatterns("/api/comment")
 //            .addPathPatterns("/api/like/**")
     }
